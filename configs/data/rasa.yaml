@@ -1,0 +1,22 @@
+_target_: matcha.data.text_mel_datamodule.TextMelDataModule
+name: rasa
+train_filelist_path: data/rasa/Kashmiri/train_filtered.txt
+valid_filelist_path: data/rasa/Kashmiri/val_filtered.txt
+batch_size: 32
+num_workers: 8
+pin_memory: True
+cleaners: [basic_cleaners] 
+add_blank: True
+n_spks: 1 
+n_fft: 1024
+n_feats: 80
+sample_rate: 22050
+hop_length: 256
+win_length: 1024
+f_min: 0
+f_max: 8000
+data_statistics:
+  mel_mean: -5.846672
+  mel_std: 2.504909
+seed: ${seed}
+load_durations: false
