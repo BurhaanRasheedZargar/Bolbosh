@@ -6,7 +6,7 @@ This repository contains the official code and test set for **Bolbosh**, a multi
 
 ## Highlights
 
-- **Multi-speaker Kashmiri TTS** supporting 424 speakers by combining the Rasa dataset and IndicVoices corpus.
+- **Multi-speaker Kashmiri TTS** trained on 424 speakers by combining the Rasa dataset and IndicVoices corpus, with inference targeting two high-quality Rasa speakers (male and female).
 - **Transfer learning** from a pre-trained English multi-speaker model (VCTK), fine-tuned on Kashmiri data.
 - **Character-level text processing** with a custom Kashmiri text normalizer that handles Persio-Arabic script, diacritics, digit-to-word expansion, and Unicode canonicalization — no phonemizer required.
 - **Conditional Flow Matching** decoder with an ODE-based inference procedure enabling fast, high-quality synthesis in as few as 10 steps.
@@ -159,14 +159,29 @@ Update the `mel_mean` and `mel_std` values in the data configuration file accord
 
 ## Inference
 
+Although the model is trained on 424 speakers to learn robust Kashmiri speech representations, inference is performed using the two high-quality Rasa speakers:
+
+| Speaker | ID | Description |
+|---------|----|-------------|
+| **Male** | 422 | Rasa male speaker |
+| **Female** | 423 | Rasa female speaker |
+
 ### Command-Line Synthesis
 
 ```bash
+# Male speaker
 matcha-tts \
     --checkpoint_path <path-to-checkpoint> \
     --text "<Kashmiri text>" \
     --speaking_rate 1.0 \
-    --spk <speaker_id>
+    --spk 422
+
+# Female speaker
+matcha-tts \
+    --checkpoint_path <path-to-checkpoint> \
+    --text "<Kashmiri text>" \
+    --speaking_rate 1.0 \
+    --spk 423
 ```
 
 ### Gradio Demo
@@ -224,7 +239,7 @@ python matcha/train.py data.batch_size=32 trainer.max_epochs=500
 
 The `testset_bolbosh/` directory contains the complete test set:
 
-- **2,272 utterances** from the Rasa corpus (male and female speakers)
+- **2,272 utterances** from the Rasa corpus (male speaker 422 and female speaker 423)
 - Ground-truth WAV files at 22,050 Hz
 - `test.txt` with entries in `audio_path|speaker_id|text` format
 
